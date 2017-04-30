@@ -96,33 +96,24 @@ def main(N=3000, max_cost=1000):
 				break
 		print("cost: {}".format(cost))
 
-	# visualizes the optimal path
+	# record the optimal path
 	s_record = [[0,0]]
+	action_record = []
 	agent.zero()
 	while agent.act(learning=False):
 		i,j=state2coor(agent.s)
 		s_record.append([i, j])
+		action_record.append(agent.last_a)
 
-	fig, ax = plt.subplots()
-	for i in range(11):
-	    ax.plot([0,10],[i,i],color="k")
-	    ax.plot([i,i],[0,10],color="k")
 
 	s_record = np.array(s_record)
-	print(s_record)
-	labelx=[str(xx) for xx in range(10)]
-	labely=list(reversed([str(xx) for xx in range(10)]))
-	ax.plot(s_record[:,1]+0.5, 9.5-s_record[:,0],color="r")
+	action_record = np.array(action_record)
+	np.savetxt("s_record.csv", s_record)
+	np.savetxt("action_record.csv", action_record)
 
-	plt.axis([-1,11,-1,11])
-	k=0
-	for x in np.arange(0.5,10.5,1):
-		plt.text(x, 10.5, labelx[k])
-		plt.text(-0.5, x, labely[k])
-		k+=1
-	plt.axis("off")
-	plt.axis("equal")
-	plt.show()
+	print(s_record)
+	
+	
 
 
 if __name__=="__main__":
